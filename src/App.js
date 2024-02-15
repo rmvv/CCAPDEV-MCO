@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
 import {
   createBrowserRouter,
@@ -7,9 +7,10 @@ import {
 
 import Home from './pages/Home';
 import Login from './pages/Login';
-import Avail from './pages/Avail';
+import Slot from './pages/Slot';
 import Reserve from './pages/Reserve';
-
+import Register from './pages/Register';
+import Profile from './pages/Profile';
 
 const router = createBrowserRouter([
   {
@@ -21,12 +22,20 @@ const router = createBrowserRouter([
     element: <Login />, 
   },
   {
-    path: "/avail/:roomId",
-    element: <Avail />,
+    path: "/slot/:roomId",
+    element: <Slot />,
   },
   {
     path: "/reserve",
     element: <Reserve />
+  },
+  {
+    path: "/register",
+    element: <Register />
+  },
+  {
+    path: "/profile",
+    element: <Profile />
   }
 ]); 
 

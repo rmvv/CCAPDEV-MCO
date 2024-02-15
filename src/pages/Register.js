@@ -1,19 +1,21 @@
-// pages/index.js
 import React from 'react';
 import { JsonForms } from '@jsonforms/react';
 import { materialCells, materialRenderers } from '@jsonforms/material-renderers';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-
 import { useNavigate } from "react-router-dom";
 
 const schema = {
   type: 'object',
   properties: {
-    username: { type: 'string' },
+    dlsuEmail: { 
+      type: 'string',
+      format: 'email',
+      pattern: '^[a-zA-Z0-9._%+-]+@dlsu.edu.ph$'
+    },
     password: { type: 'string', format: 'password' },
   },
-  required: ['username', 'password'],
+  required: ['dlsuEmail', 'password'],
 };
 
 const uischema = {
@@ -21,37 +23,32 @@ const uischema = {
   elements: [
     {
       type: 'Control',
-      scope: '#/properties/username',
+      scope: '#/properties/dlsuEmail',
+      label: 'DLSU Email'
     },
     {
       type: 'Control',
       scope: '#/properties/password',
+      label: 'Password'
     },
   ],
 };
 
-export default function Home() {
+export default function Register() {
   const navigate = useNavigate();
   const [data, setData] = React.useState({});
 
   return (
-    <Container maxWidth="sm" style={{margin:'10px'}}>
+    <Container maxWidth="sm" style={{ margin: '10px' }}>
       <JsonForms
         schema={schema}
         uischema={uischema}
         data={data}
         renderers={materialRenderers}
         cells={materialCells}
-        onChange={({ data, _errors }) => {
-          console.log(data);
-          setData(data);
-        }}
+        onChange={({ data }) => setData(data)}
       />
-      <Button variant="contained" onClick={()=>{
-        navigate('/');
-      }}>Login</Button>
-      <Button variant="text" onClick={() => 
-        navigate('/register')} style={{marginTop: '10px'}}>Don't have an account? Register</Button>
+      <Button variant="contained" style={{marginTop: '20px'}} onClick={() => navigate('/login')}>Register</Button>
     </Container>
   );
 }
