@@ -1,0 +1,36 @@
+.main-container {
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    background-color: #087830; /* This color will be visible if the image doesn't cover the entire left div */
+}
+
+.left-div {
+    background-size: cover;
+    background-position: center;
+    width: 40%; /* Adjust the width as needed */
+    min-height: 100vh; /* This ensures the div takes up the full height of the viewport */
+    background-image: url('../images/registerBackground.jpg'); /* Example path, replace with your actual path */
+}
+
+.right-div {
+    width: 60%; /* Adjust the width as needed */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content {
+    background-color: white;
+    padding: 30px;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 10px;
+    align-items: center;
+}
+
+.greenButton {
+    background-color: #087830 !important;
+    color: white !important;
+}
