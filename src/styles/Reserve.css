@@ -1,0 +1,99 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Sticky Header Styles */
+.sticky-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: #fff;
+    padding: 10px 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.header-logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+.left-group {
+    display: flex;
+    align-items: center;
+}
+
+.header-link {
+    text-decoration: none;
+    color: inherit;
+    margin-right: 10px;
+}
+
+.header-link h4 {
+    margin: 0;
+    transition: all 0.3s ease;
+}
+
+.header-link:hover h4 {
+    text-decoration: underline;
+}
+
+/* Reserve Component Styles */
+.reserve-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.left-container, .right-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 50px;
+}
+
+.left-container {
+    width: 40%;
+    min-height: 100vh;
+    background-image: url('../images/bg_green2.jpg'); /* Adjust path as necessary */
+}
+
+.right-container {
+    width: 60%;
+    min-height: 100vh;
+    background-image: url('../images/bg_green.jpg'); /* Adjust path as necessary */
+    align-items: center;
+}
+
+.title {
+    text-align: left;
+    font-size: 24px;
+}
+
+.date {
+    width: 90%;
+    margin-top: 20px; /* Adjust as necessary */
+    margin-bottom: 20px; /* Adjust as necessary */
+}
+
+.slots {
+    margin-top: 20px;
+}
+
+.button {
+    font-size: 25px;
+}
+
+.button.available {
+    background-color: white;
+    border-color: rgb(0, 122, 87);
+    color: rgb(0, 122, 87);
+}
+
+.button.not-available {
+    /* Define styles for not available buttons if needed */
+}

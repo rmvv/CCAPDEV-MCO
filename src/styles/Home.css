@@ -1,0 +1,50 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+.sticky-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: #fff;
+    padding: 10px 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.content {
+    padding: 10px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.header-logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+/* .sticky-header > h4 {
+    margin: 0;
+    display: inline-block;
+} */
+.left-group {
+    display: flex;
+    align-items: center;
+}
+
+.header-link {
+    text-decoration: none;
+    color: inherit;
+    margin-right: 10px;
+}
+.header-link h4 {
+    margin: 0;
+    transition: all 0.3s ease;
+}
+
+.header-link:hover h4 {
+    text-decoration: underline;
+}
