@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+ 
+:root {
+    color: #262626;
+    font-family: 'Roboto', sans-serif;
+}
+
+.sticky-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: #fff;
+    padding: 10px 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.header-logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+.profile-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-size: contain;
+    background-image: url('../images/bg_green2.jpg');
+}
+
+.left-align {
+    margin-top: 20px;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    min-height: auto;
+    justify-content: center;
+}
+
+.right-align {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    width: 100%; 
+}
+
+.profile-box{
+    height: 100%;
+    width: 100%;
+    border-radius: 30px;
+    background-image: url('../images/bg_green.jpg') ;
+}
+
+.profile-name{
+    color:#fafafa;
+    font-weight: bold;
+}
+
+.reserve-box{
+    height: 100%;
+    width: 150%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    background-image: url('../images/bg_green.jpg') ;
+}
+
+.profile-pic{
+    height: 150px;
+    width: 150px;
+    margin: auto;
+    border: solid 4px #fafafa;
+    border-radius: 100%;
+}
+
+.reserve-button{
+    background-color: #fafafa;
+    color: #087830;
+    margin-top: 10px;
+}
+
+.reserve-button:hover{
+    background-color: #087830;
+    color: #fafafa;
+    margin-top: 10px;
+}

@@ -18,10 +18,14 @@ const rooms = [
   { id: 10, available: true },
 ];
 
+const checkbox = ['Reserve anonymously'];
+
+
 export default function Reserve() {
   const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedItems, setSelectedItems] = useState([]);
   
   const handleRoomSelect = (roomId) => {
     navigate(`/slot/${roomId}`);
@@ -35,6 +39,14 @@ export default function Reserve() {
     // Implement your search logic here
     console.log(`Searching for: ${searchQuery}`);
     // You might want to navigate to a search results page or filter items on the current page
+  };
+
+  const handleCheckboxChange = (item) => {
+    if (selectedItems.includes(item)) {
+      setSelectedItems(selectedItems.filter((selectedItem) => selectedItem !== item));
+    } else {
+      setSelectedItems([...selectedItems, item]);
+    }
   };
 
   return (
@@ -86,6 +98,22 @@ export default function Reserve() {
                     shrink: true,
                   }}
             />
+            <div>
+              {checkbox.map((item) => (
+                <label key={item}>
+                  <input
+                    type="checkbox"
+                    value={item}
+                    checked={selectedItems.includes(item)}
+                    onChange={() => handleCheckboxChange(item)}
+                  />
+                  {item}
+                </label>
+              ))}
+            </div>
+            <Button className="cancelButton" variant="contained" style={{marginTop: '20px'}} onClick={()=>{
+              navigate('/');
+            }}>Cancel Reservation</Button>
         </div>
         <div className='right-container'>
           <Container className='slots' maxWidth="md">

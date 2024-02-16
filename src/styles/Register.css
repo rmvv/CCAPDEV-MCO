@@ -3,7 +3,8 @@
     min-height: 100vh;
     align-items: center;
     justify-content: center;
-    background-color: #087830; /* This color will be visible if the image doesn't cover the entire left div */
+    background-image: url('../images/bg_green.jpg');
+    /* background-color: #087830; This color will be visible if the image doesn't cover the entire left div */
 }
 
 .left-div {
