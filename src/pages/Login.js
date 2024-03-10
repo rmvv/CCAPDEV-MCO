@@ -1,13 +1,12 @@
-// pages/index.js
 import React from 'react';
 import { JsonForms } from '@jsonforms/react';
 import { materialCells, materialRenderers } from '@jsonforms/material-renderers';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-
+import { Button, Container, Typography, Box } from '@mui/material';
 import { useNavigate } from "react-router-dom";
-import '../styles/Register.css';
-import registerBackground from '../images/registerBackground.jpg';
+
+// Assuming the path adjustments as necessary
+import bgGreen from '../images/bg_green.jpg';
+import bgGreen3 from '../images/registerBackground.jpg';
 
 const schema = {
   type: 'object',
@@ -37,30 +36,61 @@ export default function Home() {
   const [data, setData] = React.useState({});
 
   return (
-    <div className='main-container'>
-      <div className="left-div" style={{ backgroundImage: `url(${registerBackground})` }}></div>
-      <Container className='right-div' maxWidth="sm">
-      <div className='content'>
-        <h1>Login</h1>
-        <JsonForms
-          schema={schema}
-          uischema={uischema}
-          data={data}
-          renderers={materialRenderers}
-          cells={materialCells}
-          onChange={({ data, _errors }) => {
-            console.log(data);
-            setData(data);
-          }}
-        />
-        <Button className="greenButton" variant="contained" style={{marginTop: '20px'}} onClick={()=>{
-          navigate('/');
-        }}>Login</Button>
-        <Button variant="text" onClick={() => 
-          navigate('/register')} style={{marginTop: '10px'}}>Don't have an account? Register</Button>
-      </div>
-      </Container>
-    </div>
-    
+    <Box sx={{ display: 'flex', minHeight: '100vh' }}>
+      {/* Left Container */}
+      <Box
+        className="left-container"
+        sx={{
+          width: '40%',
+          minHeight: '100vh',
+          backgroundImage: `url(${bgGreen3})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      />
+      {/* Right Container */}
+      <Box
+        className="right-container"
+        sx={{
+          width: '60%',
+          minHeight: '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundImage: `url(${bgGreen})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        <Container maxWidth="xs" sx={{ textAlign: 'center', backgroundColor: 'rgba(255, 255, 255)', borderRadius: '8px', padding: '20px' }}>
+          <Typography variant="h4" gutterBottom component="div">
+            Login
+          </Typography>
+          <JsonForms
+            schema={schema}
+            uischema={uischema}
+            data={data}
+            renderers={materialRenderers}
+            cells={materialCells}
+            onChange={({ data, _errors }) => setData(data)}
+          />
+          <Button
+            variant="contained"
+            sx={{ mt: 2, backgroundColor: '#087830', color: 'white', '&:hover': { backgroundColor: '#065a23' } }}
+            onClick={() => navigate('/')}
+          >
+            Login
+          </Button>
+          <br></br>
+          <Button
+            variant="text"
+            sx={{ mt: 1 }}
+            onClick={() => navigate('/register')}
+          >
+            Don't have an account? Register
+          </Button>
+        </Container>
+      </Box>
+    </Box>
   );
 }

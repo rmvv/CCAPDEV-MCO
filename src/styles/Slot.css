@@ -1,0 +1,60 @@
+.slot-container {
+    min-height: 100vh; 
+    display: flex;
+}
+
+.slot-left-div {
+    background-image: url('../images/bg_green3.jpg');
+    width: 40%; 
+    min-height: 100vh; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 50px;
+    text-align: left;
+    font-size: 24px;
+}
+
+.seatButton {
+    background-color: white !important;
+    color: #04AA6D !important;
+    border-color: #04AA6D !important;
+    width: 100%;
+    font-size: 25px !important;
+}
+
+.buttonHover1:hover {
+    background-color: #04AA6D !important;
+    color: white !important;
+}
+
+.buttonClicked {
+    background-color: #087830 !important;
+    color: white !important;
+    border-color: #087830 !important;
+}
+
+.submitButton {
+    background-color: #087830 !important;
+    color: white !important;
+    border-color: black !important;
+}
+
+.slot-right-div {
+    background-image: url('../images/bg_green.jpg');
+    width: 60%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.prompt-text {
+    justify-content: center;
+    color: white;
+}
+
+.custom-JsonForm {
+    background-color: white !important;
+    width: 90%;
+}

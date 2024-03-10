@@ -27,32 +27,35 @@
 
 .profile-container{
     display: flex;
+    min-height: 100vh;
+    background-image: url('../images/bg_green3.jpg') ;
+}
+
+.left-align, .right-align {
+    display: flex;
     flex-direction: column;
-    justify-content: center;
-    background-size: contain;
-    background-image: url('../images/bg_green2.jpg');
+    align-items: center;
+    padding-top: 50px;
 }
 
 .left-align {
-    margin-top: 20px;
-    display: flex;
-    height: 100%;
-    width: 100%;
-    min-height: auto;
-    justify-content: center;
+    /* background-color: aqua; */
+    width: 40%;
+    min-height: 100vh;
 }
 
 .right-align {
-    margin-top: 10px;
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
-    width: 100%; 
+    /* background-color: orange; */
+    width: 60%;
+    min-height: 100vh;
 }
 
 .profile-box{
-    height: 100%;
-    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 60px;
+    margin-bottom: 20px;
+    height: 25%;
+    width: 90%;
     border-radius: 30px;
     background-image: url('../images/bg_green.jpg') ;
 }
@@ -63,10 +66,7 @@
 }
 
 .reserve-box{
-    height: 100%;
-    width: 150%;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    width: 80%;
     border-radius: 20px;
     background-image: url('../images/bg_green.jpg') ;
 }
@@ -79,14 +79,15 @@
     border-radius: 100%;
 }
 
-.reserve-button{
+.design-button{
     background-color: #fafafa;
     color: #087830;
     margin-top: 10px;
 }
 
-.reserve-button:hover{
+.design-button:hover{
     background-color: #087830;
     color: #fafafa;
     margin-top: 10px;
 }
+
