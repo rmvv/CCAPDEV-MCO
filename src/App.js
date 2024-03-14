@@ -7,10 +7,12 @@ import {
 
 import Home from './pages/Home';
 import Login from './pages/Login';
-import Slot from './pages/Slot';
+import EditReservation from './pages/EditReserve';
 import Reserve from './pages/Reserve';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
+import { SnackbarProvider } from 'notistack';
+import { UserProvider } from './components/UserContext'; 
 
 const router = createBrowserRouter([
   {
@@ -22,8 +24,8 @@ const router = createBrowserRouter([
     element: <Login />, 
   },
   {
-    path: "/slot/:roomId",
-    element: <Slot />,
+    path: "/reservation/:id",
+    element: <EditReservation />, 
   },
   {
     path: "/reserve",
@@ -41,9 +43,13 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <div className="App">
-      <RouterProvider router={router} />
-    </div>
+    <UserProvider>
+      <SnackbarProvider maxSnack={5}>
+      <div className="App">
+        <RouterProvider router={router} />
+      </div>
+      </SnackbarProvider>
+    </UserProvider>
   );
 }
 

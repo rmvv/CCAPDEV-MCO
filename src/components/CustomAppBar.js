@@ -2,17 +2,16 @@ import React from 'react';
 import { AppBar, Toolbar, Container, Box, Button, TextField, IconButton, Menu, MenuItem } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { Link } from 'react-router-dom';
-
+import { useUser } from './UserContext';
 function CustomAppBar({
-    searchQuery,
-    handleSearchChange,
-    handleSearchSubmit,
-    handleOpenUserMenu,
-    handleCloseUserMenu,
-    anchorElUser,
-    name
+  handleOpenUserMenu,
+  handleCloseUserMenu,
+  anchorElUser,
 }) {
-    return (
+
+  const { user, setUser } = useUser();
+
+  return (
     <AppBar position="static" color="default" elevation={0}>
       <Toolbar>
         <Container maxWidth="lg" sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -21,20 +20,7 @@ function CustomAppBar({
             <Button component={Link} to="/" color="inherit">DigitalLabs</Button>
             <Button component={Link} to="/reserve" color="inherit">Reserve</Button>
           </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <TextField
-              size="small"
-              variant="outlined"
-              value={searchQuery}
-              onChange={handleSearchChange}
-              placeholder="Search..."
-              sx={{ marginRight: '8px' }}
-            />
-            <IconButton onClick={handleSearchSubmit}>
-              <SearchIcon />
-            </IconButton>
-          </Box>
-          <Button color="inherit" onClick={handleOpenUserMenu}>{name}</Button>
+          <Button color="inherit" onClick={handleOpenUserMenu}>{user.profile.name}</Button>
           <Menu
             sx={{ mt: '45px' }}
             id="user-menu-appbar"
@@ -58,7 +44,7 @@ function CustomAppBar({
         </Container>
       </Toolbar>
     </AppBar>
-    );
+  );
 }
 
 export default CustomAppBar;

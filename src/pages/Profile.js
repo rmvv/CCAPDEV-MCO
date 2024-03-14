@@ -2,63 +2,89 @@ import React from 'react';
 import { Container, Typography, Card, CardContent, CardMedia, Grid, Button } from '@mui/material';
 
 import '../styles/Profile.css'
-import registerBackground from '../images/registerBackground.jpg';
 
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { useUser } from '../components/UserContext';
+
+import { useEffect } from 'react';
+
+import { useSnackbar } from 'notistack';
+import { useNavigate } from "react-router-dom";
+
 
 const Profile = () => {
-  // Hardcoded user information and reservations
-  const userProfile = {
-    description: "I am a Software Developer that teaches Advanced Programming.",
-    name: "John Doe",
-    imageUrl: registerBackground, // Replace with your image URL or local path
-    reservations: [
-      { id: 1, date: "2024-02-22", time: "10:00 AM", description: "Lab Work" },
-      { id: 2, date: "2024-02-23", time: "1:00 PM", description: "Work" },
-      { id: 3, date: "2024-02-24", time: "1:00 PM", description: "Activity" },
-      { id: 4, date: "2024-02-25", time: "1:00 PM", description: "Lesson" },
-      { id: 5, date: "2024-02-26", time: "1:00 PM", description: "Lesson" },
-      // Add more reservations as needed
-    ],
+  const { id } = useParams();
+  const { enqueueSnackbar } = useSnackbar();
+  const navigate = useNavigate();
+  const { user, setUser } = useUser();
 
-    /*
-      this.name: name;
-      this.description: description;
-      this.imageUrl: imageUrl;
-      this.reservations: reservations[]; 
-    
-    
-    */
-  };
+  const [userProfile, setUserProfile] = React.useState(user.profile);
+  const [reservations, setReservations] = React.useState([]);
 
-  // Edit Reservation Button
-  const handleEditReservation = (reservationId) => {
-    // Implement your edit reservation logic here
-    console.log(`Edit reservation clicked for ID: ${reservationId}`);
-  };
-
-  const handleDeleteAcct = () => {
-    // Implement your edit reservation logic here
-    console.log(`Account is deleted.`);
-  };
 
   const handleLogOut = () => {
-    // Implement your edit reservation logic here
-    console.log(`You have logged out.`);
+    setUser({ profile: {}, token: '' });
+    navigate('/login');
   };
+
+
+  const deleteReservation = async (reservationId) => {
+    try {
+      const response = await fetch(`http://localhost:3001/api/delete/reservation/${reservationId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'access_token': user.token
+        },
+      });
+      const json = await response.json();
+      if (json.success) {
+        enqueueSnackbar('Reservation deleted successfully', { variant: 'success' });
+        setReservations(reservations.filter(reservation => reservation._id !== reservationId));
+      }
+    } catch (e) {
+      console.log('Error deleting reservation:', e.message);
+      enqueueSnackbar(`Error deleting reservation: ${e.message}`, { variant: 'error' });
+    }
+  };
+  const fetchData = async () => {
+    try {
+      const response = await fetch('http://localhost:3001/api/search/reservation', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'access_token': user.token
+        },
+        body: JSON.stringify({ username: user.profile.username }),
+      });
+      console.log(response);
+      const reply = await response.json();
+      if (reply && reply.success) {
+        setReservations(reply.result);
+      } else {
+        enqueueSnackbar(reply.message);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <Container class="profile-container">
-    
+
       <Container class="left-align">
         <Typography variant="h4" gutterBottom>
           Profile
         </Typography>
 
-        <Card className='profile-box'> 
+        <Card className='profile-box'>
           <CardMedia
             className='profile-pic'
-            style={{marginTop: "25px"}}
+            style={{ marginTop: "25px" }}
             component="img"
             height="140"
             image={userProfile.imageUrl}
@@ -70,32 +96,29 @@ const Profile = () => {
             </Typography>
 
             <Typography gutterBottom variant="h5" component="div" className='profile-name'>
-              About Me
+              {userProfile.description}
             </Typography>
 
-            <Typography gutterBottom variant="body" component="div" color='#fafafa'>
-            {userProfile.description}
-            </Typography>
           </CardContent>
         </Card>
 
         <Container>
           <Button variant="contained" component={Link} to="/"
-            className = 'design-button' style={{marginBottom: '20px'}}>
+            className='design-button' style={{ marginBottom: '20px' }}>
             Delete Account
           </Button>
 
           <Button variant="contained" component={Link} to="/login"
-            className = 'design-button' style={{marginBottom: '20px'}}>
+            className='design-button' style={{ marginBottom: '20px' }}>
             Log-Out
           </Button>
 
           <Button variant="contained" component={Link} to="/"
-            className = 'design-button' style={{marginBottom: '20px'}}>
+            className='design-button' style={{ marginBottom: '20px' }}>
             Back To Home
           </Button>
           <Button variant="contained" component={Link} to="/profile"
-            className = 'design-button' style={{marginBottom: '20px'}}>
+            className='design-button' style={{ marginBottom: '20px' }}>
             Edit Profile
           </Button>
         </Container>
@@ -109,21 +132,24 @@ const Profile = () => {
               Reservations:
             </Typography>
             <Grid container spacing={2}>
-              {userProfile.reservations.map((reservation) => (
-                <Grid item xs={12} key={reservation.id}>
+              {reservations.map((reservation) => (
+                <Grid item xs={12} key={reservation._id}>
                   <Card variant="outlined">
                     <CardContent>
-                      <Typography variant="h6">{reservation.description}</Typography>
+                      <Typography variant="h6">Room: {reservation.room}</Typography>
                       <Typography color="text.secondary">Date: {reservation.date}</Typography>
                       <Typography color="text.secondary">Time: {reservation.time}</Typography>
-                      
+                      <Typography color="text.secondary">Seat: {reservation.seat}</Typography>
 
-                      {/*Button for Edit Reservation*/ }
-                      <Button variant="contained" onClick={() => handleEditReservation(reservation.id)}
-                      className = 'design-button'>
+                      <Button variant="contained" onClick={() => navigate('/reservation/' + reservation._id)}
+                        className='design-button'>
                         Edit Reservation
                       </Button>
 
+                      <Button variant="contained" onClick={() => deleteReservation(reservation._id)}
+                        className='design-button'>
+                        Delete Reservation
+                      </Button>
 
                     </CardContent>
                   </Card>

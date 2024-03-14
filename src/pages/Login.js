@@ -8,11 +8,14 @@ import { useNavigate } from "react-router-dom";
 import bgGreen from '../images/bg_green.jpg';
 import bgGreen3 from '../images/registerBackground.jpg';
 
+import { useSnackbar } from 'notistack';
+import { useUser } from '../components/UserContext'; 
+
 const schema = {
   type: 'object',
   properties: {
     username: { type: 'string' },
-    password: { type: 'string', format: 'password' },
+    password: { type: 'string' },
   },
   required: ['username', 'password'],
 };
@@ -26,14 +29,17 @@ const uischema = {
     },
     {
       type: 'Control',
-      scope: '#/properties/password',
+      scope: '#/properties/password'
     },
   ],
 };
 
 export default function Home() {
+  const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const [data, setData] = React.useState({});
+  const [errors, setErrors] = React.useState([]);
+  const { setUser } = useUser();
 
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh' }}>
@@ -72,12 +78,43 @@ export default function Home() {
             data={data}
             renderers={materialRenderers}
             cells={materialCells}
-            onChange={({ data, _errors }) => setData(data)}
+            onChange={(rep) => {
+              let { data, errors } = rep;
+              setData(data);
+              setErrors(errors);
+            }}
           />
           <Button
             variant="contained"
             sx={{ mt: 2, backgroundColor: '#087830', color: 'white', '&:hover': { backgroundColor: '#065a23' } }}
-            onClick={() => navigate('/')}
+            onClick={async () => {
+              if(errors && errors.length>0){
+                for(let i=0;i<errors.length;i++){
+                  enqueueSnackbar(errors[i]);
+                }
+                return;
+              }
+              try{
+                const response = await fetch('http://localhost:3001/api/login', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify(data),
+                });
+                console.log(response);
+                const reply = await response.json();
+                if(reply && reply.success){
+                  setUser(reply.result);
+                  navigate('/');
+                } else {
+                  enqueueSnackbar(reply.message);
+                }
+              }catch(e){
+                console.log(e);
+              }
+              
+            }}
           >
             Login
           </Button>

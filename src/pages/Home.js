@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
 import { Link } from 'react-router-dom';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
@@ -13,7 +13,13 @@ import Box from '@mui/material/Box';
 import CustomAppBar from '../components/CustomAppBar'; 
 import '../styles/Home.css';
 
+import { useNavigate } from "react-router-dom";
+import { useUser } from '../components/UserContext';
+
 export default function Home() {
+  const { user } = useUser();
+  const navigate = useNavigate();
+
   const [searchQuery, setSearchQuery] = useState('');
   const [anchorElUser, setAnchorElUser] = useState(null);
 
@@ -33,16 +39,20 @@ export default function Home() {
     setAnchorElUser(null);
   };
 
+  useEffect(() => {
+    if(user && user.profile && user.profile.name){
+    }else{
+      navigate('/login');
+    }
+  }, []);
+
+
   return (
     <>
       <CustomAppBar
-        searchQuery = {searchQuery}
-        handleSearchChange = {handleSearchChange}
-        handleSearchSubmit = {handleSearchSubmit}
         handleOpenUserMenu = {handleOpenUserMenu}
         handleCloseUserMenu = {handleCloseUserMenu}
         anchorElUser = {anchorElUser}
-        name = "John Doe"
       />
       <Container maxWidth="lg" sx={{ my: 4 }}>
         <Typography variant="h4" gutterBottom>Welcome to the Digital Labs!</Typography>
