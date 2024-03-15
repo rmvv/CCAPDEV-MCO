@@ -28,7 +28,7 @@
 .profile-container{
     display: flex;
     min-height: 100vh;
-    background-image: url('../images/bg_green3.jpg') ;
+    background-color: #FAF9F6;
 }
 
 .left-align, .right-align {
@@ -40,54 +40,57 @@
 
 .left-align {
     /* background-color: aqua; */
-    width: 40%;
+    width: 45%;
     min-height: 100vh;
 }
 
 .right-align {
     /* background-color: orange; */
-    width: 60%;
+    width: 55%;
     min-height: 100vh;
 }
 
 .profile-box{
-    padding-top: 10px;
-    padding-bottom: 60px;
-    margin-bottom: 20px;
-    height: 25%;
-    width: 90%;
-    border-radius: 30px;
-    background-image: url('../images/bg_green.jpg') ;
+    width: 80%;
+    height: 50%;
+    overflow: auto;
+    margin: 0 auto;
+    border-radius: 20px;
+    /* background-image: url('../images/bg_green.jpg') ; */
 }
 
 .profile-name{
-    color:#fafafa;
     font-weight: bold;
 }
 
 .reserve-box{
     width: 80%;
     border-radius: 20px;
-    background-image: url('../images/bg_green.jpg') ;
 }
 
 .profile-pic{
-    height: 150px;
-    width: 150px;
+    object-fit: cover;
+    height: 40%;
+    margin-top: 25px;
     margin: auto;
-    border: solid 4px #fafafa;
-    border-radius: 100%;
+}
+
+.card-content {
+    margin: 10px;
+}
+
+.profile-description {
+    margin: auto;
+    padding-top: 5px;
 }
 
 .design-button{
-    background-color: #fafafa;
-    color: #087830;
+    background-color: #fafafa !important;
+    color: #087830 !important;
     margin-top: 10px;
 }
 
 .design-button:hover{
-    background-color: #087830;
-    color: #fafafa;
-    margin-top: 10px;
+    background-color: #087830 !important;
+    color: #fafafa !important;
 }
-

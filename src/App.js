@@ -7,7 +7,7 @@ import {
 
 import Home from './pages/Home';
 import Login from './pages/Login';
-import EditReservation from './pages/EditReserve';
+import EditReserve from './pages/EditReserve';
 import Reserve from './pages/Reserve';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
@@ -25,7 +25,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/reservation/:id",
-    element: <EditReservation />, 
+    element: <EditReserve />, 
   },
   {
     path: "/reserve",

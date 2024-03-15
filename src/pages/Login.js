@@ -4,7 +4,6 @@ import { materialCells, materialRenderers } from '@jsonforms/material-renderers'
 import { Button, Container, Typography, Box } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 
-// Assuming the path adjustments as necessary
 import bgGreen from '../images/bg_green.jpg';
 import bgGreen3 from '../images/registerBackground.jpg';
 
@@ -95,11 +94,11 @@ export default function Home() {
                 return;
               }
               try{
-                const response = await fetch('http://localhost:3001/api/login', {
+                const response = await fetch('http://localhost:3001/api/login?rnd='+ new Date(), {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json',
-                  },
+                  },    
                   body: JSON.stringify(data),
                 });
                 console.log(response);

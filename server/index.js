@@ -133,6 +133,7 @@ async function startApp() {
         if (user) {
             const token = jwt.sign({ username }, SECRET_KEY, { expiresIn: '24h' });
             res.json({ success: true, message: "success token", result: { profile: user, token: token } });
+            console.log("User Found");
         } else {
             res.json({ success: false, message: "access denied" });
         }

@@ -25,6 +25,7 @@ const Profile = () => {
   const handleLogOut = () => {
     setUser({ profile: {}, token: '' });
     navigate('/login');
+
   };
 
 
@@ -72,61 +73,59 @@ const Profile = () => {
   useEffect(() => {
     fetchData();
   }, []);
-
   return (
     <Container class="profile-container">
 
-      <Container class="left-align">
-        <Typography variant="h4" gutterBottom>
+      <div class="left-align">
+        <Typography variant="h4" gutterBottom marginLeft={'auto'} marginRight={'auto'}>
           Profile
         </Typography>
 
         <Card className='profile-box'>
           <CardMedia
             className='profile-pic'
-            style={{ marginTop: "25px" }}
             component="img"
-            height="140"
             image={userProfile.imageUrl}
             alt="Profile Image"
           />
-          <CardContent>
+          <CardContent className='card-content'>
             <Typography gutterBottom variant="h5" component="div" className='profile-name'>
               {userProfile.name}
             </Typography>
 
-            <Typography gutterBottom variant="h5" component="div" className='profile-name'>
-              {userProfile.description}
+            <Typography gutterBottom variant="h6" component="div" className='profile-name' style={{ marginTop: '20px' }}>
+              About Me
             </Typography>
 
+            <Typography gutterBottom variant="body" component="div" className='profile-description'>
+              {userProfile.description}
+            </Typography>
           </CardContent>
+
+          <div>
+            <Button variant="contained" component={Link} to="/"
+              className='design-button' style={{ marginBottom: '20px' }}>
+              Delete Account
+            </Button>
+
+            <Button variant="contained" component={Link} to="/login"
+              className='design-button' style={{ marginBottom: '20px' }}>
+              Log-Out
+            </Button>
+
+            <Button variant="contained" component={Link} to="/"
+              className='design-button' style={{ marginBottom: '20px' }}>
+              Back To Home
+            </Button>
+          </div>
+
         </Card>
 
-        <Container>
-          <Button variant="contained" component={Link} to="/"
-            className='design-button' style={{ marginBottom: '20px' }}>
-            Delete Account
-          </Button>
+      </div>
 
-          <Button variant="contained" component={Link} to="/login"
-            className='design-button' style={{ marginBottom: '20px' }}>
-            Log-Out
-          </Button>
-
-          <Button variant="contained" component={Link} to="/"
-            className='design-button' style={{ marginBottom: '20px' }}>
-            Back To Home
-          </Button>
-          <Button variant="contained" component={Link} to="/profile"
-            className='design-button' style={{ marginBottom: '20px' }}>
-            Edit Profile
-          </Button>
-        </Container>
-
-      </Container>
-
-      <Container class="right-align">
-        <Card className='reserve-box'>
+      <div class="right-align">
+        <Card className='reserve-box'
+          style={{ backgroundColor: "#087830" }}>
           <CardContent>
             <Typography variant="h6" color="#fafafa">
               Reservations:
@@ -158,7 +157,8 @@ const Profile = () => {
             </Grid>
           </CardContent>
         </Card>
-      </Container>
+      </div>
+
     </Container>
   );
 };

@@ -1,21 +1,23 @@
 import React from 'react';
 import { JsonForms } from '@jsonforms/react';
 import { materialCells, materialRenderers } from '@jsonforms/material-renderers';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography'; // Import Typography for text
-import Box from '@mui/material/Box'; // Import Box for layout
+import {
+  Container,
+  Button,
+  Typography,
+  Box,
+} from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { styled } from '@mui/material/styles'; // For custom styling
-
+import { styled } from '@mui/material/styles';
+import { useUser } from '../components/UserContext';
+import { useSnackbar } from 'notistack';
 import '../styles/Register.css';
 import registerBackground from '../images/registerBackground.jpg';
 
 const schema = {
   type: 'object',
   properties: {
-    firstname: { type: 'string' },
-    lastname: { type: 'string' },
+    name: { type: 'string' },
     dlsuEmail: {
       type: 'string',
       format: 'email',
@@ -23,20 +25,17 @@ const schema = {
     },
     username: { type: 'string' },
     password: { type: 'string', format: 'password' },
-    confirmPassword: { type: 'string', format: 'password' },
   },
-  required: ['firstname', 'lastname', 'dlsuEmail', 'username', 'password', 'confirmPassword'],
+  required: ['firstname', 'lastname', 'dlsuEmail', 'username', 'password'],
 };
 
 const uischema = {
   type: 'VerticalLayout',
   elements: [
-    { type: 'Control', scope: '#/properties/firstname' },
-    { type: 'Control', scope: '#/properties/lastname' },
+    { type: 'Control', scope: '#/properties/name' },
     { type: 'Control', scope: '#/properties/dlsuEmail', label: 'DLSU Email' },
     { type: 'Control', scope: '#/properties/username' },
     { type: 'Control', scope: '#/properties/password', label: 'Password' },
-    { type: 'Control', scope: '#/properties/confirmPassword', label: 'Confirm Password' },
   ],
 };
 
@@ -45,13 +44,40 @@ const BackgroundBox = styled(Box)({
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   height: '100vh',
-  width: '50vw', 
+  width: '50vw',
 });
 
 export default function Register() {
+  const { user } = useUser();
   const navigate = useNavigate();
   const [data, setData] = React.useState({});
+  const { enqueueSnackbar } = useSnackbar();
 
+
+  const handleSubmit = async () => {
+    try {
+      const submission = await fetch('http://localhost:3001/api/create/user', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'access_token': user.token
+        },
+        body: JSON.stringify(data)
+      });
+
+      console.log(submission);
+      const reply = await submission.json();
+
+      if (reply && reply.success) {
+        enqueueSnackbar('Register successful!', { variant: 'success' });
+        navigate('/login');
+      } else {
+        enqueueSnackbar(reply.message);
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
   return (
     <Box className="main-container" display="flex">
       <BackgroundBox className="left-div" />
@@ -68,7 +94,7 @@ export default function Register() {
             cells={materialCells}
             onChange={({ data }) => setData(data)}
           />
-          <Button variant="contained"  sx={{ bgcolor: '#087830', '&:hover': { bgcolor: '#065f23' } }} onClick={() => navigate('/login')}>
+          <Button variant="contained" sx={{ bgcolor: '#087830', '&:hover': { bgcolor: '#065f23' } }} onClick={handleSubmit}>
             Register
           </Button>
         </Box>

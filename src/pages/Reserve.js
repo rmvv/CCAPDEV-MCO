@@ -111,7 +111,8 @@ export default function Reserve() {
                 backgroundColor: '#065a23',
               }
             }}
-            >Submit Reservation</Button>
+            >Submit Reservation
+            </Button>
           </Box>
         </Container>
       </Box>
