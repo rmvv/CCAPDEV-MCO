@@ -9,7 +9,7 @@ import bgGreen3 from '../images/registerBackground.jpg';
 
 import { useSnackbar } from 'notistack';
 import { useUser } from '../components/UserContext'; 
-
+import CryptoJS from 'crypto-js';
 const schema = {
   type: 'object',
   properties: {
