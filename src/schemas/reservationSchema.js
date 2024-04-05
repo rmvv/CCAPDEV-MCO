@@ -43,6 +43,11 @@ const reservationSchema = {
             type: "string",
             title: "Select Time Slot",
             enum: generateTimeSlots()
+        },
+        anonReservation: { 
+            type: "boolean",
+            title: "Anonymous Reservation",
+            description: "Check this box if you want a anonymous reservation."
         }
     }
 };
@@ -54,7 +59,8 @@ const reservationUISchema = {
         { type: 'Control', scope: '#/properties/date', label: 'Reservation Date' },
         { type: 'Control', scope: '#/properties/room', label: 'Room' },
         { type: 'Control', scope: '#/properties/seat', label: 'Seat' },
-        { type: 'Control', scope: '#/properties/time', label: 'Time Slot' }
+        { type: 'Control', scope: '#/properties/time', label: 'Time Slot' },
+        { type: 'Control', scope: '#/properties/anonReservation', label: 'Opt for Anonymous Reservation?' }
     ]
 };
 

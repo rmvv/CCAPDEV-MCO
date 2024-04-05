@@ -3,13 +3,22 @@ import { AppBar, Toolbar, Container, Box, Button, TextField, IconButton, Menu, M
 import SearchIcon from '@mui/icons-material/Search';
 import { Link } from 'react-router-dom';
 import { useUser } from './UserContext';
-function CustomAppBar({
-  handleOpenUserMenu,
-  handleCloseUserMenu,
-  anchorElUser,
-}) {
+  function CustomAppBar({
+    handleOpenUserMenu,
+    handleCloseUserMenu,
+    anchorElUser,
+  }) {
 
-  const { user, setUser } = useUser();
+  const handleReserveSeatClick = () => {
+    console.log("Profile: ", user.profile.username);
+    if (user.profile.username === 'admin') {
+      navigate('/adminReserve');
+    } else {
+      navigate('/reserve');
+    }
+  };
+
+  const { user } = useUser();
 
   return (
     <AppBar position="static" color="default" elevation={0}>

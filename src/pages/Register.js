@@ -25,8 +25,10 @@ const schema = {
     },
     username: { type: 'string' },
     password: { type: 'string', format: 'password' },
+    description: { type: 'string' },
+    imageURL: { type: 'string' },
   },
-  required: ['firstname', 'lastname', 'dlsuEmail', 'username', 'password'],
+  required: ['name', 'dlsuEmail', 'username', 'password', 'description'],
 };
 
 const uischema = {
@@ -36,6 +38,8 @@ const uischema = {
     { type: 'Control', scope: '#/properties/dlsuEmail', label: 'DLSU Email' },
     { type: 'Control', scope: '#/properties/username' },
     { type: 'Control', scope: '#/properties/password', label: 'Password' },
+    { type: 'Control', scope: '#/properties/description' },
+    { type: 'Control', scope: '#/properties/imageURL' },
   ],
 };
 
@@ -59,8 +63,7 @@ export default function Register() {
       const submission = await fetch('http://localhost:3001/api/create/user', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'access_token': user.token
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
       });

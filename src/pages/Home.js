@@ -23,14 +23,6 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const [anchorElUser, setAnchorElUser] = useState(null);
 
-  const handleSearchChange = (event) => {
-    setSearchQuery(event.target.value);
-  };
-
-  const handleSearchSubmit = () => {
-    console.log(`Searching for: ${searchQuery}`);
-  };
-
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -46,6 +38,14 @@ export default function Home() {
     }
   }, []);
 
+  const handleReserveSeatClick = () => {
+    console.log("Profile: ", user.profile.username);
+    if (user.profile.username === 'admin') {
+      navigate('/adminReserve'); 
+    } else {
+      navigate('/reserve');
+    }
+  };
 
   return (
     <>
@@ -68,8 +68,7 @@ export default function Home() {
         <br></br>
         <Button
           variant="contained"
-          component={Link}
-          to="/reserve"
+          onClick={handleReserveSeatClick}
           sx={{ mt: 2, bgcolor: '#087830', '&:hover': { bgcolor: '#065f23' } }} 
         >
           Reserve a Seat

@@ -28,7 +28,6 @@ const Profile = () => {
 
   };
 
-
   const deleteReservation = async (reservationId) => {
     try {
       const response = await fetch(`http://localhost:3001/api/delete/reservation/${reservationId}`, {
@@ -43,9 +42,9 @@ const Profile = () => {
         enqueueSnackbar('Reservation deleted successfully', { variant: 'success' });
         setReservations(reservations.filter(reservation => reservation._id !== reservationId));
       }
-    } catch (e) {
-      console.log('Error deleting reservation:', e.message);
-      enqueueSnackbar(`Error deleting reservation: ${e.message}`, { variant: 'error' });
+    } catch (error) {
+      console.log('Error deleting reservation:', error.message);
+      enqueueSnackbar(`Error deleting reservation: ${error.message}`, { variant: 'error' });
     }
   };
   const fetchData = async () => {
@@ -65,14 +64,49 @@ const Profile = () => {
       } else {
         enqueueSnackbar(reply.message);
       }
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.log(error);
     }
   }
 
   useEffect(() => {
     fetchData();
   }, []);
+
+  const deleteAccount = async () => {
+    const isConfirmed = window.confirm("Are you sure you want to delete your account? This action cannot be undone.");
+    if (!isConfirmed) {
+      return; 
+    }
+    try {
+      const response = await fetch('http://localhost:3001/api/delete/user', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'access_token': user.token
+        },
+      });
+      console.log(response);
+      
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const result = await response.json();
+
+      if (result.success) {
+        enqueueSnackbar('Account Successfully Deleted', { variant: 'success' });
+        setUser({ profile: {}, token: '' });
+        navigate('/login');
+      } else {
+        enqueueSnackbar(result.message || 'Failed To Delete Account', { variant: 'error'});
+      }
+    } catch (error) {
+      console.error('Error deleting account:', error);
+      enqueueSnackbar('Error deleting account', { variant: 'error' });
+    }
+  };  
+
   return (
     <Container class="profile-container">
 
@@ -103,7 +137,11 @@ const Profile = () => {
           </CardContent>
 
           <div>
-            <Button variant="contained" component={Link} to="/"
+            <Button variant="contained" onClick={() => navigate('/EditProfile/' + user.profile._id)}
+              className='design-button' style={{ marginBottom: '20px' }}>
+              Edit Profile
+            </Button>
+            <Button variant="contained" onClick={() => deleteAccount()}
               className='design-button' style={{ marginBottom: '20px' }}>
               Delete Account
             </Button>
@@ -123,9 +161,8 @@ const Profile = () => {
 
       </div>
 
-      <div class="right-align">
-        <Card className='reserve-box'
-          style={{ backgroundColor: "#087830" }}>
+      <div className="right-align">
+        <Card className='reserve-box' style={{ backgroundColor: "#087830" }}>
           <CardContent>
             <Typography variant="h6" color="#fafafa">
               Reservations:
@@ -135,10 +172,21 @@ const Profile = () => {
                 <Grid item xs={12} key={reservation._id}>
                   <Card variant="outlined">
                     <CardContent>
-                      <Typography variant="h6">Room: {reservation.room}</Typography>
-                      <Typography color="text.secondary">Date: {reservation.date}</Typography>
-                      <Typography color="text.secondary">Time: {reservation.time}</Typography>
-                      <Typography color="text.secondary">Seat: {reservation.seat}</Typography>
+                      {reservation.anonReservation ? (
+                        <>
+                          <Typography variant="h6">Room: Anonymous</Typography>
+                          <Typography color="text.secondary">Date: Anonymous</Typography>
+                          <Typography color="text.secondary">Time: Anonymous</Typography>
+                          <Typography color="text.secondary">Seat: Anonymous</Typography>
+                        </>
+                      ) : (
+                        <>
+                          <Typography variant="h6">Room: {reservation.room}</Typography>
+                          <Typography color="text.secondary">Date: {reservation.date}</Typography>
+                          <Typography color="text.secondary">Time: {reservation.time}</Typography>
+                          <Typography color="text.secondary">Seat: {reservation.seat}</Typography>
+                        </>
+                      )}
 
                       <Button variant="contained" onClick={() => navigate('/reservation/' + reservation._id)}
                         className='design-button'>
@@ -158,7 +206,6 @@ const Profile = () => {
           </CardContent>
         </Card>
       </div>
-
     </Container>
   );
 };

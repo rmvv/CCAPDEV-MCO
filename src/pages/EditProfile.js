@@ -14,9 +14,34 @@ import { JsonForms } from '@jsonforms/react';
 import { materialCells, materialRenderers } from '@jsonforms/material-renderers';
 import { useSnackbar } from 'notistack';
 import { useUser } from '../components/UserContext';
-import { reservationSchema, reservationUISchema } from '../schemas/reservationSchema';
+
 
 import bgGreen from '../images/bg_green.jpg';
+
+const schema = {
+    type: 'object',
+    properties: {
+      name: { type: 'string' },
+      dlsuEmail: { type: 'string', format: 'email', pattern: '^[a-zA-Z0-9._%+-]+@dlsu.edu.ph$' },
+      username: { type: 'string' },
+      password: { type: 'string', format: 'password' },
+      description: { type: 'string' },
+      imageURL: { type: 'string' },
+    },
+    required: ['name', 'dlsuEmail', 'username', 'password', 'description'],
+  };
+  
+  const uischema = {
+    type: 'VerticalLayout',
+    elements: [
+      { type: 'Control', scope: '#/properties/name' },
+      { type: 'Control', scope: '#/properties/dlsuEmail', label: 'DLSU Email' },
+      { type: 'Control', scope: '#/properties/username' },
+      { type: 'Control', scope: '#/properties/password', label: 'Password' },
+      { type: 'Control', scope: '#/properties/description' },
+      { type: 'Control', scope: '#/properties/imageURL' },
+    ],
+  };
 
 const theme = createTheme({
     components: {
@@ -50,7 +75,7 @@ export default function EditReserve() {
 
     const getReservationData = async () => {
         try {
-            const response = await fetch(`http://localhost:3001/api/get/reservation/${id}`, {
+            const response = await fetch(`http://localhost:3001/api/get/user/${id}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'access_token': user.token
@@ -61,12 +86,12 @@ export default function EditReserve() {
             if (json.success) {
                 setData(json.result);
             } else {
-                enqueueSnackbar('Failed to fetch reservation data', { variant: 'error' });
+                enqueueSnackbar('Failed to fetch profile data', { variant: 'error' });
                 navigate(-2);
             }
         } catch (e) {
-            console.error('Error fetching reservation:', e);
-            enqueueSnackbar('Error fetching reservation data', { variant: 'error' });
+            console.error('Error fetching Profile:', e);
+            enqueueSnackbar('Error fetching Profiel data', { variant: 'error' });
         }
     };
 
@@ -77,7 +102,7 @@ export default function EditReserve() {
 
     const handleSubmit = async () => {
         try {
-            const response = await fetch(`http://localhost:3001/api/update/reservation/${id}`, {
+            const response = await fetch(`http://localhost:3001/api/update/user/${id}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -87,10 +112,10 @@ export default function EditReserve() {
             });
             const reply = await response.json();
             if (reply && reply.success) {
-                enqueueSnackbar('Reservation updated successfully', { variant: 'success' });
+                enqueueSnackbar('Profile updated successfully', { variant: 'success' });
                 navigate('/');
             } else {
-                enqueueSnackbar('Failed to update reservation', { variant: 'error' });
+                enqueueSnackbar('Failed to update Profile', { variant: 'error' });
             }
         } catch (e) {
             console.log(e);
@@ -114,11 +139,11 @@ export default function EditReserve() {
                 <Container maxWidth="sm">
                     <Box sx={{ bgcolor: '#ececec', p: 2, borderRadius: '16px', width: '100%', mt: 8 }}>
                         <Typography variant="h4" gutterBottom sx={{ textAlign: 'left' }}>
-                            Edit Your Reservation
+                            Edit Your Profile
                         </Typography>
                         <JsonForms
-                            schema={reservationSchema}
-                            uischema={reservationUISchema}
+                            schema={schema}
+                            uischema={uischema}
                             data={data}
                             renderers={materialRenderers}
                             cells={materialCells}

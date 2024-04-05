@@ -9,8 +9,10 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import EditReserve from './pages/EditReserve';
 import Reserve from './pages/Reserve';
+import AdminReserve from './pages/AdminReserve.js';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
+import EditProfile from './pages/EditProfile';
 import { SnackbarProvider } from 'notistack';
 import { UserProvider } from './components/UserContext'; 
 
@@ -28,8 +30,16 @@ const router = createBrowserRouter([
     element: <EditReserve />, 
   },
   {
+    path: "/EditProfile/:id",
+    element: <EditProfile />, 
+  },
+  {
     path: "/reserve",
     element: <Reserve />
+  },
+  {
+    path: "/adminReserve",
+    element: <AdminReserve />
   },
   {
     path: "/register",

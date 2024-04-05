@@ -1,15 +1,16 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
-const uri = "mongodb+srv://rainemiguelvillaver:Ar0DyWcMbgf3IFoq@ccapdev-group3.qsy0rnr.mongodb.net/?retryWrites=true&w=majority";
+const uri = process.env.MONGO_URI;
 
 async function startApp() {
     const app = express();
     app.use(cors());
     app.use(express.json());
 
-    const SECRET_KEY = "1234kjhjhfdkhj1!asd/.,a/s.d,a/s.as,d/a.sd/.as,d/as,d";
+    const SECRET_KEY = process.env.SECRET_KEY;
 
     const client = new MongoClient(uri, {
         serverApi: {
@@ -25,6 +26,10 @@ async function startApp() {
     const db = client.db("MC02-DB");
 
     function verifyToken(req, res, next) {
+        if (req.path === '/api/create/user' && req.method === 'POST') {
+            return next();
+        }
+        console.log(req);
         const token = req.headers['access_token'];
 
         if (!token) {
@@ -37,7 +42,7 @@ async function startApp() {
         } catch (err) {
             return res.status(401).send("Invalid Token");
         }
-        return next();
+        next();
     }
 
     app.post('/api/create/:modelName', verifyToken, async (req, res) => {
@@ -92,6 +97,31 @@ async function startApp() {
         }
     });
 
+    app.post('/api/searchDetails/:modelName', verifyToken, async (req, res) => {
+        const { modelName } = req.params;
+    
+        try {
+            const { date, room, seat, time } = req.body;
+            const searchCriteria = {
+                date: date,
+                room: room,
+                seat: seat,
+                time: time,
+            };
+            console.log("Inside API: ", searchCriteria);
+            const searchResult = await db.collection(modelName).find(searchCriteria).toArray();
+    
+            if (searchResult.length > 0) {
+                res.json({ success: true, message: "Duplicate Found", result: searchResult });
+            } else {
+                res.json({ success: true, message: "No Duplicate Found", result: [] });
+            }
+        } catch (error) {
+            console.error(error);
+            res.json({ success: false, message: "search error" });
+        }
+    });
+
     app.post('/api/delete/:modelName/:id', verifyToken, async (req, res) => {
         const { modelName, id } = req.params;
 
@@ -113,6 +143,24 @@ async function startApp() {
         }
     });
 
+    app.post('/api/delete/user', verifyToken, async (req, res) => {   
+        try{
+            const { username } = req.user;
+            const result = await db.collection('user').deleteOne({ username });
+            if (result.deletedCount === 0){
+                return res.status(404).send('User not found or already deleted');
+            }
+            await db.collection('reservation').deleteMany({ username: username });
+        
+            res.json({ success: true, message: "Account and related records deleted successfully." });
+        } catch (error) {
+            console.error('Failed to delete account and related records:', error);
+            res.json({ success: false, message: "User deletion failed", error: error.message });
+        }
+    });
+
+    
+    
     app.get('/api/get/:modelName/:id', async (req, res) => {
         const { modelName, id } = req.params;
 
