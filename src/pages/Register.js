@@ -13,6 +13,7 @@ import { useUser } from '../components/UserContext';
 import { useSnackbar } from 'notistack';
 import '../styles/Register.css';
 import registerBackground from '../images/registerBackground.jpg';
+import CryptoJS from 'crypto-js';
 
 const schema = {
   type: 'object',
@@ -59,13 +60,20 @@ export default function Register() {
 
 
   const handleSubmit = async () => {
+    const hashedPassword = CryptoJS.SHA256(data.password).toString(CryptoJS.enc.Hex);
+
+    const submissionData = {
+      ...data,
+      password: hashedPassword,
+    };
+
     try {
       const submission = await fetch('/api/create/user', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(submissionData)
       });
 
       console.log(submission);
