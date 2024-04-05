@@ -1,22 +1,19 @@
 import React from 'react';
 import { AppBar, Toolbar, Container, Box, Button, TextField, IconButton, Menu, MenuItem } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from './UserContext';
-  function CustomAppBar({
-    handleOpenUserMenu,
-    handleCloseUserMenu,
-    anchorElUser,
-  }) {
+function CustomAppBar({ handleOpenUserMenu, handleCloseUserMenu, anchorElUser,}) {
+  const navigate = useNavigate();
 
-  const handleReserveSeatClick = () => {
-    console.log("Profile: ", user.profile.username);
-    if (user.profile.username === 'admin') {
-      navigate('/adminReserve');
-    } else {
-      navigate('/reserve');
-    }
-  };
+  // const handleReserveSeatClick = () => {
+  //   console.log("Profile: ", user.profile.username);
+  //   if (user.profile.username === 'admin') {
+  //     navigate('/adminReserve');
+  //   } else {
+  //     navigate('/reserve');
+  //   }
+  // };
 
   const { user } = useUser();
 

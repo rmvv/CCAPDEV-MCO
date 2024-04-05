@@ -30,7 +30,7 @@ const Profile = () => {
 
   const deleteReservation = async (reservationId) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/delete/reservation/${reservationId}`, {
+      const response = await fetch(`/api/delete/reservation/${reservationId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -49,7 +49,7 @@ const Profile = () => {
   };
   const fetchData = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/search/reservation', {
+      const response = await fetch('/api/search/reservation', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -79,7 +79,7 @@ const Profile = () => {
       return; 
     }
     try {
-      const response = await fetch('http://localhost:3001/api/delete/user', {
+      const response = await fetch('/api/delete/user', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

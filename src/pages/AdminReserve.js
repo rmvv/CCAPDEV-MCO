@@ -122,7 +122,7 @@ export default function Reserve() {
         time: data.time
       }
       console.log("Search Criteria:", searchCriteria);
-      const searchResponse = await fetch('http://localhost:3001/api/searchDetails/reservation', {
+      const searchResponse = await fetch('/api/searchDetails/reservation', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -139,7 +139,7 @@ export default function Reserve() {
         return;
       }
 
-      const submission = await fetch('http://localhost:3001/api/create/reservation', {
+      const submission = await fetch('/api/create/reservation', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

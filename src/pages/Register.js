@@ -60,7 +60,7 @@ export default function Register() {
 
   const handleSubmit = async () => {
     try {
-      const submission = await fetch('http://localhost:3001/api/create/user', {
+      const submission = await fetch('/api/create/user', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

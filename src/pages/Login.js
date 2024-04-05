@@ -94,7 +94,7 @@ export default function Home() {
                 return;
               }
               try{
-                const response = await fetch('http://localhost:3001/api/login?rnd='+ new Date(), {
+                const response = await fetch('/api/login?rnd='+ new Date(), {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json',

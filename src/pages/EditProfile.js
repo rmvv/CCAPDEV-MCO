@@ -75,7 +75,7 @@ export default function EditReserve() {
 
     const getReservationData = async () => {
         try {
-            const response = await fetch(`http://localhost:3001/api/get/user/${id}`, {
+            const response = await fetch(`/api/get/user/${id}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'access_token': user.token
@@ -102,7 +102,7 @@ export default function EditReserve() {
 
     const handleSubmit = async () => {
         try {
-            const response = await fetch(`http://localhost:3001/api/update/user/${id}`, {
+            const response = await fetch(`/api/update/user/${id}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
